@@ -1,36 +1,44 @@
-import React from 'react'
-import mernImg from '../assets/images/mern.webp';
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBlogApiAsync } from '../features/singleBlog/singleBlogSlice';
+
 const PostMain = () => {
+  const dispatch = useDispatch();
+  const { blog } = useSelector((state) => state.blog);
+  const { blog_id } = useParams();
+  const { title, description, image, tags, likes, isSaved } = blog || {};
+
+  useEffect(() => {
+    dispatch(getBlogApiAsync(blog_id))
+  }, [dispatch, blog_id])
   return (
     <main className="post">
-      <img src={mernImg} alt="githum" className="w-full rounded-md" id="lws-megaThumb" />
+      <img src={image} alt="githum" className="w-full rounded-md" id="lws-megaThumb" />
       <div>
         <h1 className="mt-6 text-2xl post-title" id="lws-singleTitle">
-          MERN stack for Web Development
+          {title}
         </h1>
         <div className="tags" id="lws-singleTags">
-          <span>#python,</span> <span>#tech,</span> <span>#git</span>
+          {
+            tags?.map((tag) => (
+              <span key={tag + '45'}>{'#' + tag + ' '}</span>
+            ))
+          }
         </div>
         <div className="btn-group">
-          {/* <!-- handle like on button click --> */}
+
           <button className="like-btn" id="lws-singleLinks">
-            <i className="fa-regular fa-thumbs-up"></i> 100
+            <i className="fa-regular fa-thumbs-up"></i> {likes}
           </button>
-          {/* <!-- handle save on button click --> */}
-          {/* <!-- use ".active" className and "Saved" text  if a post is saved, other wise "Save" --> */}
-          <button className="active save-btn" id="lws-singleSavedBtn">
-            <i className="fa-regular fa-bookmark"></i> Saved
+
+          <button className={isSaved ? 'active save-btn' : 'save-btn'} id="lws-singleSavedBtn">
+            <i className="fa-regular fa-bookmark"></i> {isSaved ? 'Saved' : 'Save'}
           </button>
         </div>
         <div className="mt-6">
           <p>
-            A MERN stack comprises a collection of four frameworks (MongoDB,
-            ExpressJs, ReactJs and NodeJs) used to develop full-stack
-            javascript solutions for rapid, scalable, and secure applications.
-            Each framework serves a different purpose in creating successful
-            web applications. It is an excellent choice for companies looking
-            to develop high-quality responsive applications quickly using just
-            one language.
+            {description}
           </p>
         </div>
       </div>

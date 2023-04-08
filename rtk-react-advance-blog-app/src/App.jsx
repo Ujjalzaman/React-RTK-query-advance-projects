@@ -16,7 +16,7 @@ const App = () => {
       <Nav />
       <Routes>
         <Route element={<Posts />} path='/'/>
-        <Route element={<PostDetail />} path='/post/:id'/>
+        <Route element={<PostDetail />} path='/post/:blog_id'/>
       </Routes>
     </BrowserRouter>
   )
