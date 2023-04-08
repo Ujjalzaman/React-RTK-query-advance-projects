@@ -7,9 +7,10 @@ import Loading from './Loading';
 const Videos = () => {
     const dispatch = useDispatch();
     const { videos, loading, isError, error } = useSelector((state) => state.videos)
+    const {tags, search} = useSelector((state) => state.filter);
     useEffect(() => {
-        dispatch(getVideostAsync())
-    }, [dispatch])
+        dispatch(getVideostAsync({tags, search}))
+    }, [dispatch, tags, search])
 
     //decide what to show
     let content;
