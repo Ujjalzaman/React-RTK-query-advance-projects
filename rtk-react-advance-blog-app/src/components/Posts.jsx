@@ -1,33 +1,35 @@
-import React from 'react'
-import gitImg from '../assets/images/git.webp';
+import React, { useEffect } from 'react'
 import Aside from './Aside';
-import { Link } from 'react-router-dom';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getBlogsApiAsync } from '../features/Blog/BlogSlice';
+import BlogCard from './BlogCard';
+import Loading from './Loading';
 
 const Posts = () => {
+    const dispatch = useDispatch();
+    const { blogs, isError, isLoading, error } = useSelector((state) => state.blogs);
+
+    useEffect(() => {
+        dispatch(getBlogsApiAsync());
+    }, [dispatch])
+
+    let content;
+    if(isLoading) content = <Loading/>;
+    if(!isLoading && isError) content = <div>{error}</div>;
+    if(!isLoading && !isError && blogs?.length === 0) content = <div>No Found</div>;
+    if(!isLoading && !isError && blogs?.length > 0) 
+    content = blogs.map((blog) =>(
+        <BlogCard blog={blog} key={blog.id}/>
+    ));
+
+    
     return (
         <section className='wrapper'>
-            <Aside/>
-        <main class="post-container" id="lws-postContainer">
-            <div className="lws-card">
-                <Link to={`post/1`}>
-                    <img src={gitImg} className="lws-card-image" alt="" />
-                </Link>
-                <div className="p-4">
-                    <div className="lws-card-header">
-                        <p className="lws-publishedDate">2023-05-01</p>
-                        <p className="lws-likeCount"><i className="fa-regular fa-thumbs-up"></i>100</p>
-                    </div>
-                    <Link to={`post/1`} className="lws-postTitle"> Top Github Alternatives </Link>
-                    <div className="lws-tags"><span>#python,</span> <span>#tech,</span> <span>#git</span></div>
+            <Aside />
 
-                    <div className="flex gap-2 mt-4">
-                        <span className="lws-badge"> Saved </span>
-                    </div>
-
-                </div>
-            </div>
-        </main>
+            <main className="post-container" id="lws-postContainer">
+                {content}
+            </main>
 
         </section>
     )
