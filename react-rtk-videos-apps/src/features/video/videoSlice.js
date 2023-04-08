@@ -36,7 +36,7 @@ export const videoSlice = createSlice({
         state.error = action.error?.message;
         state.isError = false;
         state.loading = true;
-        state.video = action.payload;
+        state.video = [];
       });
   },
 });

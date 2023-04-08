@@ -1,24 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { getTagstAsync } from '../features/tags/tagsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import Tag from './Tag';
 
 const Tags = () => {
-  return (
-    <section>
+    const dispatch = useDispatch();
+    const { tags } = useSelector((state) => state.tags);
+
+    useEffect(() => {
+        dispatch(getTagstAsync());
+    }, [dispatch])
+
+    return (
+        <section>
             <div
                 className="max-w-7xl mx-auto px-5 py-6 lg:px-0 flex gap-2 border-b overflow-y-auto"
             >
-                <div
-                    className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full cursor-pointer"
-                >
-                    react
-                </div>
-                <div
-                    className="bg-blue-600 text-white px-4 py-1 rounded-full cursor-pointer"
-                >
-                    redux
-                </div>
+                {tags.map((tag) => (
+                    <Tag key={tag.id} title={tag.title} />
+                ))}
             </div>
         </section>
-  )
+    )
 }
 
 export default Tags
