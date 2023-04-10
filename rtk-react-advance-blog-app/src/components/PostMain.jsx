@@ -1,17 +1,8 @@
-import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getBlogApiAsync } from '../features/singleBlog/singleBlogSlice';
+import React from 'react'
 
-const PostMain = () => {
-  const dispatch = useDispatch();
-  const { blog } = useSelector((state) => state.blog);
-  const { blog_id } = useParams();
+const PostMain = ({blog}) => {
   const { title, description, image, tags, likes, isSaved } = blog || {};
-
-  useEffect(() => {
-    dispatch(getBlogApiAsync(blog_id))
-  }, [dispatch, blog_id])
+  
   return (
     <main className="post">
       <img src={image} alt="githum" className="w-full rounded-md" id="lws-megaThumb" />

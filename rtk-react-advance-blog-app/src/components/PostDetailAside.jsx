@@ -4,12 +4,9 @@ import { getRelatedBlogsApiAsync } from '../features/RelatedBlogs/relatedBlogsSl
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
 
-const PostDetailAside = () => {
-  const { blog, isLoading, isError, error } = useSelector((state) => state.blog);
-  const { relatedBlogs } = useSelector((state) => state.relatedBlogs);
-  const { tags, id } = blog;
+const PostDetailAside = ({id, tags}) => {
+  const { relatedBlogs,isLoading, isError, error } = useSelector((state) => state.relatedBlogs);
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getRelatedBlogsApiAsync({ tags, id }))
   }, [dispatch, tags, id])
@@ -20,7 +17,7 @@ const PostDetailAside = () => {
   if (!isLoading && !isError && relatedBlogs?.length === 0) content = <div>No Found</div>;
   if (!isLoading && !isError && relatedBlogs?.length > 0)
     content = relatedBlogs.map((item) => (
-      <div className="card">
+      <div className="card" key={item.id}>
         <Link to={`/post/${item.id}`}>
           <img src={item?.image} className="card-image" alt="" />
         </Link>
@@ -31,7 +28,7 @@ const PostDetailAside = () => {
           <div className="mb-0 tags">
             {
               item.tags.map((tag) => {
-                <span key={tag}>{'#' + tag + ' '}</span>
+                <span>{'#' + tag + ' '}</span>
               })
             }
           </div>
@@ -44,12 +41,9 @@ const PostDetailAside = () => {
     <aside>
       <h4 className="mb-4 text-xl font-medium" id="lws-relatedPosts">Related Posts</h4>
       <div className="space-y-4 related-post-container">
-
         {content}
-
       </div>
     </aside>
   )
 }
-
-export default PostDetailAside
+export default PostDetailAside;
