@@ -18,18 +18,23 @@ export const getBlogApiAsync = createAsyncThunk(
 const singleblogSlice = createSlice({
     name: 'blogs',
     initialState,
-    extraReducers:(builder) =>{
-        builder.addCase(getBlogApiAsync.pending, (state) =>{
+    reducers: {
+        postSaved: (state, action) => {
+            state.blog.isSaved = action.payload
+        }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(getBlogApiAsync.pending, (state) => {
             state.isError = false;
             state.isLoading = true;
         })
-        builder.addCase(getBlogApiAsync.fulfilled, (state, action) =>{
+        builder.addCase(getBlogApiAsync.fulfilled, (state, action) => {
             state.isError = false;
             state.isLoading = false;
             state.blog = action.payload;
             state.error = '';
         })
-        builder.addCase(getBlogApiAsync.rejected, (state, action) =>{
+        builder.addCase(getBlogApiAsync.rejected, (state, action) => {
             state.isError = true;
             state.isLoading = false;
             state.blog = action.payload;
@@ -38,3 +43,4 @@ const singleblogSlice = createSlice({
     }
 })
 export default singleblogSlice.reducer;
+export const { postSaved } = singleblogSlice.actions;

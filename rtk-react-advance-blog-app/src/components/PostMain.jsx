@@ -1,7 +1,15 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { postSaved } from '../features/singleBlog/singleBlogSlice';
 
 const PostMain = ({blog}) => {
+  const dispatch = useDispatch();
   const { title, description, image, tags, likes, isSaved } = blog || {};
+
+  const handlePostSave = (saveInfo) =>{
+    dispatch(postSaved(saveInfo))
+  }
+
   
   return (
     <main className="post">
@@ -23,7 +31,7 @@ const PostMain = ({blog}) => {
             <i className="fa-regular fa-thumbs-up"></i> {likes}
           </button>
 
-          <button className={isSaved ? 'active save-btn' : 'save-btn'} id="lws-singleSavedBtn">
+          <button onClick={() => handlePostSave(!isSaved)} className={isSaved ? 'active save-btn' : 'save-btn'} id="lws-singleSavedBtn">
             <i className="fa-regular fa-bookmark"></i> {isSaved ? 'Saved' : 'Save'}
           </button>
         </div>
