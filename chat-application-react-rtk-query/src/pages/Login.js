@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logoImage from "../assets/images/lws-logo-light.svg";
 import Error from "../components/ui/Error";
 import { useEffect, useState } from "react";
@@ -8,8 +8,8 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-
-    const [login, {isLoading, error: resError}] = useLoginMutation();
+    const navigate = useNavigate();
+    const [login, {isLoading, error: resError, isSuccess}] = useLoginMutation();
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -22,7 +22,10 @@ export default function Login() {
         if(resError?.data){
             setError(resError.data)
         }
-    }, [resError]) 
+        if(isSuccess){
+            navigate('/inbox')
+        }
+    }, [resError,isSuccess]) 
 
     return (
         <div className="grid place-items-center h-screen bg-[#F9FAFB">
