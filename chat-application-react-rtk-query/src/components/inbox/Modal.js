@@ -44,6 +44,7 @@ export default function Modal({ open, control }) {
         if (converstation?.length > 0) {
             editConversation({
                 id: converstation[0].id,
+                sender: userEmail,
                 data: {
                     participants: `${userEmail}-${participant[0].email}`,
                     users: [loggedInUser, participant[0]],
@@ -54,10 +55,13 @@ export default function Modal({ open, control }) {
             })
         } else if (converstation?.length === 0) {
             addConversation({
-                participants: `${userEmail}-${participant[0].email}`,
-                users: [loggedInUser, participant[0]],
-                message,
-                timestamp: new Date().getTime()
+                sender: userEmail,
+                data:{
+                    participants: `${userEmail}-${participant[0].email}`,
+                    users: [loggedInUser, participant[0]],
+                    message,
+                    timestamp: new Date().getTime()
+                }
             })
         }
     }

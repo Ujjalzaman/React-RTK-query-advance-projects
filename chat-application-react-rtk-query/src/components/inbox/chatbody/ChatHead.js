@@ -3,12 +3,13 @@ import gravatarUrl from 'gravatar-url';
 
 
 export default function ChatHead({ messages }) {
-    const {email} = useSelector((state) => state.auth) || {}
-    const {sender, receiver} = messages || {};
+    const { user } = useSelector((state) => state.auth) || {}
+    const { email } = user || {}
+    const { sender, receiver } = messages || {};
 
     const partnerEmail = sender.email === email ? receiver.email : sender.email;
     const partnerName = sender.email === email ? receiver.name : sender.name;
-    
+
     return (
         <div className="relative flex items-center p-3 border-b border-gray-300">
             <img
