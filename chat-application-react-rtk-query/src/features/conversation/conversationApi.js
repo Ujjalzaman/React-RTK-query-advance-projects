@@ -8,6 +8,13 @@ export const conversationApi = apiSlice.injectEndpoints({
         getConversations: builder.query({
             query: (email) =>
                 `/conversations?participants_like=${email}&_sort=timestamp&_order=desc&_page=1&_limit=5`,
+            transformResponse(apiResponse, meta){
+                const totalCount = meta.response.headers.get('X-Total-Count');
+                return {
+                    data: apiResponse,
+                    totalCount
+                }
+            },
             async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
                 //create socket 
                 const socket = io("http://localhost:9000", {

@@ -20,8 +20,8 @@ export default function ChatItems() {
         content = <li className="m-2 text-center"><Error message={error} /></li>
     } else if (!isLoading && !isError && conversations?.length === 0) {
         content = <li className="m-2 text-center"> No Conversations found</li>
-    } else if (!isLoading && !isError && conversations?.length > 0) {
-        content = conversations.map(conversation => {
+    } else if (!isLoading && !isError && conversations?.data?.length > 0) {
+        content = conversations?.data?.map(conversation => {
             const { id, message, timestamp } = conversation;
             const { name, email: partnerEmail } = getPartnerInfo(conversation.users, email)
             return (

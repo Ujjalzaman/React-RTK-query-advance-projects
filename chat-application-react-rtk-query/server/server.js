@@ -20,6 +20,11 @@ router.render = (req, res) => {
             data: res.locals.data
         })
     }
+    if(path.includes('/messages') && method === 'POST'){
+        io.emit("message", {
+            data: res.locals.data
+        })
+    }
     res.json(res.locals.data);
 }
 const middlewares = jsonServer.defaults();
