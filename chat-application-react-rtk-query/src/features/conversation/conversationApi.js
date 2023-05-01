@@ -2,6 +2,7 @@ import { apiSlice } from "../api/apiSlice";
 import { messagesApi } from '../messages/messagesApi';
 import io from 'socket.io-client';
 
+
 export const conversationApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         //endpoints here
@@ -43,6 +44,21 @@ export const conversationApi = apiSlice.injectEndpoints({
                 } catch (err) { }
                 await cacheEntryRemoved;
                 socket.close();
+
+            }
+        }),
+        getMoreConversations: builder.query({
+            query: ({email, page}) => 
+            `/conversations?participants_like=${email}&_sort=timestamp&_order=desc&_page=1&_limit=5`,
+            
+            async onQueryStarted({email}, {queryFulfilled, dispatch}){
+                //update conversation page passimitically
+                try{
+                    const conversation = await queryFulfilled;
+                    console.log(conversation)
+                }catch(err){
+
+                }
 
             }
         }),
