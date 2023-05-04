@@ -5,8 +5,8 @@ import AddNew from './AddNew'
 
 const ProjectList = () => {
     return (
-        <div class="container relative">
-            <div class="sidebar">
+        <div className="container relative">
+            <div className="sidebar">
                 <Projects />
 
                 <TeamMembers />
