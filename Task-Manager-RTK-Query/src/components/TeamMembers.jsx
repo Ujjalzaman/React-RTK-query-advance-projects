@@ -10,7 +10,7 @@ const TeamMembers = () => {
   if(!isLoading && !isError && teamMembers.length === 0) content = <div> No Content Found!</div>
   if(!isLoading && !isError && teamMembers.length > 0) {
     content =  teamMembers?.map((member) => (
-      <div className="mt-3 space-y-4">
+      <div className="mt-3 space-y-4" key={member.id}>
           <div className="checkbox-container">
             <img src={`http://127.0.0.1:5173/src/assets/${member?.avatar}`} className="team-avater" />
             <p className="label">{member.name}</p>

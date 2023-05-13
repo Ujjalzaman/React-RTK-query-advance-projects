@@ -1,16 +1,27 @@
 import React from 'react'
 import { useGetTasksQuery } from '../features/Projects/projectApi';
 import RightSideAction from './RightSideAction';
+import { useSelector } from 'react-redux';
 
 const AddNew = () => {
     const { data: tasks, isLoading, isError, error } = useGetTasksQuery();
-
+    const {projectsName} = useSelector((state) => state.filter);
+    
+    const filterTask = (proj) => {
+        const index = projectsName?.indexOf(proj.project.projectName)
+        if(projectsName.length === 0){
+            return proj;
+        }
+        if(index !== -1){
+            return proj
+        }
+    }
     let content = null;
     if (isLoading) content = <div>Loading ...</div>
     if (!isLoading && isError) connect = <div> {error}</div>
     if (!isLoading && !isError && tasks.length === 0) content = <div> No Content Found!</div>
     if (!isLoading && !isError && tasks.length > 0) {
-        content = tasks?.map((task) => (
+        content = tasks?.filter(filterTask)?.map((task) => (
             <div className="lws-task" key={task.id}>
                 <div className="flex items-center gap-2 text-slate">
                     <h2 className="lws-date">26</h2>
