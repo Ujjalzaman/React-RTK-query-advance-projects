@@ -32,8 +32,6 @@ export const projectApi = apiSlice.injectEndpoints({
             query: () => '/tasks',
             // async onCacheEntryAdded(arg, {updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch, getState}){
             //     const data = await cacheDataLoaded;
-            //     const data2 = dispatch()
-            //     console.log(getState().api)
             // }
         }),
     })
